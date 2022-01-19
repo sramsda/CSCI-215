@@ -53,17 +53,18 @@
     const BURRITO_COST = 2.49; 
 
     // collect input into variables
-    let numTacos = prompt("Enter number of tacos: ").toFixed(2); 
-    console.log(numTacos)
-    let numBurritos = prompt("Enter number of burritos: "); 
+    let numTacos = Number(prompt("Enter number of tacos: ")); 
+    let numBurritos = Number(prompt("Enter number of burritos: "));
+
 
     // perform calculations
-    let tacoTotal = numTacos * TACO_COST;
-    let burritoTotal = numBurritos * BURRITO_COST; 
+    let tacoTotal = Number((numTacos * TACO_COST).toFixed(2));
+    let burritoTotal = Number((numBurritos * BURRITO_COST).toFixed(2)); 
     let subtotal = tacoTotal + burritoTotal;
 
-    let tax = subtotal * SALES_TAX;
-    let totalCost = subtotal + tax; 
+    let tax = Number((subtotal * SALES_TAX).toFixed(2));
+    let totalCost = Number((subtotal + tax).toFixed(2)); 
+
 
     // display output
     document.getElementById('tacoCount').innerHTML = numTacos;
