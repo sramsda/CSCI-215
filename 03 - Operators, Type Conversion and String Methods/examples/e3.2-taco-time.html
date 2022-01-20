@@ -8,10 +8,10 @@
     Below is a breakdown of the order:
 </p>
 <div>
-    Tacos: <span id="tacoCount"></span> * <span id="tacoPrice"></span> = $<span id="tacoTotal"></span>
+    Tacos: <span id="tacoCount"></span> * $<span id="tacoPrice"></span> = $<span id="tacoTotal"></span>
 </div>
 <div>
-    Burritos: <span id="burritoCount"></span> * <span id="burritoPrice"></span> = $<span id="burritoTotal"></span>
+    Burritos: <span id="burritoCount"></span> * $<span id="burritoPrice"></span> = $<span id="burritoTotal"></span>
 </div>
 <hr>
 <div>
@@ -53,7 +53,9 @@
     const BURRITO_COST = 2.49; 
 
     // collect input into variables
-    let numTacos = Number(prompt("Enter number of tacos: ")); 
+    // let numTacos = Number(prompt("Enter number of tacos: ")); 
+    let numTacos = prompt("Enter number of tacos: "); 
+    console.log(typeof numTacos);
     let numBurritos = Number(prompt("Enter number of burritos: "));
 
 
