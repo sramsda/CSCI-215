@@ -3,6 +3,7 @@
     <title>Welcome to CSCI-215!</title>
 </head>
 <body>
+    <div id ="x"></div>
 <script type="text/Javascript">
 
     // arrays can hold any number of values
@@ -20,9 +21,14 @@
     
     // loop through or over array values and write to console
     const coffeeStuffArray = ["coffee grounds", "water", "sugar"];
+    let out = ''; 
+
     for (let i=0; i < coffeeStuffArray.length; i++) {
-        console.log(`${i} = ${coffeeStuffArray[i]}`);
+        // console.log(`${i} = ${coffeeStuffArray[i]}`);
+        out += `${i} = ${coffeeStuffArray[i]} <br/>`;
+        // document.write(`${i} = ${coffeeStuffArray[i]}`);
     }
+    document.getElementById('x').innerHTML = out;
 
 </script>
 </body>
