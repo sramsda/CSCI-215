@@ -49,10 +49,26 @@
     */
 
     // input
+    let catList = prompt("Enter big cat names").split(",")
+    let cat = '';
 
-    // compute
+    for(let i = 0; i <= catList.length-1; i++){
+        cat += `${i} - ${catList[i]} <br/>`;
+    }
+
+    // BONUS: 
+    let sortedCatList = catList.sort(); // sorts in place 
+    let sortedCat = ''; 
+
+    for(let i = 0; i <= catList.length-1; i++){
+        sortedCat += `${i} - ${sortedCatList[i]} <br/>`;
+    }
+
 
     // output into elements in the UI
+    document.getElementById("names").innerHTML = catList; 
+    document.getElementById("listOfNames").innerHTML = cat; 
+    document.getElementById("listOfNamesSorted").innerHTML = sortedCat; 
 
 </script>
 </body>

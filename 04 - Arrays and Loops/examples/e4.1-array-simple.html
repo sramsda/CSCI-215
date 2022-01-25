@@ -12,12 +12,12 @@
     const myArray = new Array(3.14, "water", true);
 
     // access values/attributes of an array
-    const myArray = ["Lions", "Tigers", "Bears"];
-    document.write(`all values: ${myArray}<br>`);
-    document.write(`index 0: ${myArray[0]}<br>`);
-    document.write(`index 1: ${myArray[1]}<br>`);
-    document.write(`index 2: ${myArray[2]}<br>`);
-    document.write(`array length: ${myArray.length}<br>`);
+    // const myArray = ["Lions", "Tigers", "Bears"];
+    // document.write(`all values: ${myArray}<br>`);
+    // document.write(`index 0: ${myArray[0]}<br>`);
+    // document.write(`index 1: ${myArray[1]}<br>`);
+    // document.write(`index 2: ${myArray[2]}<br>`);
+    // document.write(`array length: ${myArray.length}<br>`);
     
     // loop through or over array values and write to console
     const coffeeStuffArray = ["coffee grounds", "water", "sugar"];
@@ -29,6 +29,16 @@
         // document.write(`${i} = ${coffeeStuffArray[i]}`);
     }
     document.getElementById('x').innerHTML = out;
+
+
+    // print out loop in reverse (pretty bad way) 
+    let coffeeIngredients = ''; 
+
+    for (let x = coffeeStuffArray.length-1; x >= 0; x--){
+        coffeeIngredients += `${x} = ${coffeeStuffArray[x]} <br/>`;
+    }
+
+    document.getElementById('x').innerHTML = coffeeIngredients;
 
 </script>
 </body>
