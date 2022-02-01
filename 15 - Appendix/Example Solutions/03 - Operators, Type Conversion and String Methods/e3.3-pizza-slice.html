@@ -28,18 +28,15 @@
     */
 
     // collect input
-    let base = prompt("Enter base length: ");
-    let height = prompt("Enter height length: ");
+    let base = prompt("Enter base:");
+    let height = prompt("Enter height");
 
     // perform calculations
-    let area = (base * height) / 2; 
+    let area = (base * height) / 2;
 
     // display output
-    let text = `Your triangle has an area of ${area}`; 
-    let consoleText = ` The triangle has a base of ${base} and height of ${height} `; 
-
-    document.getElementById("output").innerHTML = text;
-    console.log(consoleText); 
+    console.log(`base: ${base}, height: ${height}`);
+    document.getElementById('output').innerHTML = `The area of the pizza slice is ${area}`;
 
 </script>
 </body>

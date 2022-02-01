@@ -48,38 +48,31 @@
     */
 
     // define constants
-    const SALES_TAX = .065; 
-    const TACO_COST = 1.19; 
-    const BURRITO_COST = 2.49; 
+    const TACO_COST = 1.19;
+    const BURRITO_COST = 2.49;
+    const TAX = .065;
 
     // collect input into variables
-    // let numTacos = Number(prompt("Enter number of tacos: ")); 
-    let numTacos = prompt("Enter number of tacos: "); 
-    console.log(typeof numTacos);
-    let numBurritos = Number(prompt("Enter number of burritos: "));
-
+    let userTacos = prompt("Enter tacos:");
+    let userBurritos = prompt("Enter burritos:");
 
     // perform calculations
-    let tacoTotal = Number((numTacos * TACO_COST).toFixed(2));
-    let burritoTotal = Number((numBurritos * BURRITO_COST).toFixed(2)); 
-    let subtotal = tacoTotal + burritoTotal;
-
-    let tax = Number((subtotal * SALES_TAX).toFixed(2));
-    let totalCost = Number((subtotal + tax).toFixed(2)); 
-
+    let tacoTotal = userTacos * TACO_COST;
+    let burritoTotal = userBurritos * BURRITO_COST;
+    let subTotal = tacoTotal + burritoTotal;
+    let taxTotal = subTotal * TAX;
+    let grandTotal = subTotal + taxTotal;
 
     // display output
-    document.getElementById('tacoCount').innerHTML = numTacos;
+    document.getElementById('tacoCount').innerHTML = userTacos;
     document.getElementById('tacoPrice').innerHTML = TACO_COST;
-    document.getElementById('tacoTotal').innerHTML = tacoTotal;
-
-    document.getElementById('burritoCount').innerHTML = numBurritos;
+    document.getElementById('tacoTotal').innerHTML = tacoTotal.toFixed(2);
+    document.getElementById('burritoCount').innerHTML = userBurritos;
     document.getElementById('burritoPrice').innerHTML = BURRITO_COST;
-    document.getElementById('burritoTotal').innerHTML = burritoTotal;
-
-    document.getElementById('subTotal').innerHTML = subtotal;
-    document.getElementById('taxAmount').innerHTML = tax;
-    document.getElementById('grandTotal').innerHTML = totalCost;
+    document.getElementById('burritoTotal').innerHTML = burritoTotal.toFixed(2);
+    document.getElementById('subTotal').innerHTML = subTotal.toFixed(2);
+    document.getElementById('taxAmount').innerHTML = taxTotal.toFixed(2);
+    document.getElementById('grandTotal').innerHTML = grandTotal.toFixed(2);
 
 </script>
 </body>

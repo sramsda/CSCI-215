@@ -41,7 +41,9 @@
             1 - Tiger
             2 - ...
 
-        Bonus: Modify the original program and add the following:
+        ** Bonus **  
+
+        Modify the original program and add the following:
 
             1. Calculate: sort the array of names.
             2. Calculate: build a string that displays the index and value of the sorted array.
@@ -49,27 +51,37 @@
     */
 
     // input
-    let catList = prompt("Enter big cat names").split(",")
-    let cat = '';
+    let names = prompt("Enter names:");
 
-    for(let i = 0; i <= catList.length-1; i++){
-        cat += `${i} - ${catList[i]} <br/>`;
+    // compute
+    // convert sting to array
+    const namesArray = names.split(",");
+
+    // build list of names to display
+    let listOfNames = '';
+    for (let i=0; i < namesArray.length; i++) {
+        listOfNames += `${i} - ${namesArray[i]} <br/>`;
     }
-
-    // BONUS: 
-    let sortedCatList = catList.sort(); // sorts in place 
-    let sortedCat = ''; 
-
-    for(let i = 0; i <= catList.length-1; i++){
-        sortedCat += `${i} - ${sortedCatList[i]} <br/>`;
-    }
-
 
     // output into elements in the UI
-    document.getElementById("names").innerHTML = catList; 
-    document.getElementById("listOfNames").innerHTML = cat; 
-    document.getElementById("listOfNamesSorted").innerHTML = sortedCat; 
+    document.getElementById('names').innerHTML = names;
+    document.getElementById('listOfNames').innerHTML = listOfNames;
 
+
+    // ** BONUS **
+
+    // sort array
+    namesArray.sort();
+
+    // build list of sorted names to display
+    let listOfNamesSorted = '';
+    for (let i=0; i < namesArray.length; i++) {
+        listOfNamesSorted += `${i} - ${namesArray[i]} <br/>`;
+    }
+
+    // output into elements in the UI
+    document.getElementById('listOfNamesSorted').innerHTML = listOfNamesSorted;
+    
 </script>
 </body>
 </html>
