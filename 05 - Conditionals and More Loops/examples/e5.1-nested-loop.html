@@ -28,10 +28,29 @@
     */
 
     // input
+    let input = prompt("enter values:");
+
+    // split into products 
+    const products = input.split(";");
 
     // calculations
+    let outStr = ""; 
+    for (let i = 0; i<products.length; i++){
 
-    // output 
+        // split products by commas 
+        const productValues = products[i].split(","); 
+
+        // set outstring to first letter of the product value 
+        outStr = "<br>" + productValues[0]+ ": "; 
+
+        // for the number of times in the quantity 
+        for(let j = 0; j < productValues[1]; j++){
+            // get the first character of the product 
+            outStr += productValues[0].charAt(0).toLowerCase(); 
+        }
+        // output
+        document.write(outStr)
+    }
 
 </script>
 </body>

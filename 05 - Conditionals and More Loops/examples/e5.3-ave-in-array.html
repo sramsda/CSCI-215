@@ -27,10 +27,25 @@
     */
 
     // input
+    let input = prompt("Enter values: ")
+    let values = input.split(",");
 
     // calculations
+    let sum = 0; 
+
+    for(let i = 0; i < values.length; i++){
+        sum += Number(values[i]); 
+    }
+
+    let avg = Math.floor(sum / values.length); 
+    // console.log(avg)
 
     // output
+    if(values.includes(String(avg))){
+        document.write(`The average value ${avg} is included in the list of values ${input}`); 
+    }else{
+        document.write(`The average value ${avg} is not included in the list of values ${input}`); 
+    }
 
 </script>
 </body>
