@@ -25,9 +25,48 @@
                 6 is divisible by 2,3
     */
 
-    // input
+    // get number from user 
+    let value = Number(prompt("Enter a number: ")); 
 
-    // calculations
+    // declare prime check boolean, true until declared false
+    let isPrime = true; 
+
+    // array to hold potential divisors 
+    const divisors = []; 
+
+    // if the value is greater than 1
+    if(value > 1){ 
+        // increment from two up to number that is entered 
+        for(let i = 2; i < value; i++){
+            // for every number, check for a divisor 
+
+            // if the number modulus the index is 0,
+            if(value % i == 0){ 
+                // it is not prime, set flag 
+                isPrime = false; 
+
+                // add the divisor to the list 
+                divisors.push(i); 
+            }
+        }
+
+    // if the number is 1 or less than 1 
+    }else{
+        // false flag 
+        isPrime = false; 
+    }
+
+    // if the number is prime
+    if(isPrime){
+        // output the number 
+        document.write(`${value} is prime :)`); 
+    }
+
+    // if it is not prime
+    else{
+        // output the number and its divisors 
+        document.write(`${value} is not prime :( <br/> ${value} is divisible by ${divisors}`); 
+    }
 
     // output
  
