@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>Welcome to CSCI-215!</title>
+</head>
+<body>
+<h1>Display Directions</h1>
+<script type="text/Javascript">
+
+    /* 
+    Process stream of data and present in human readable format 
+
+    R,Calhoun Street,3.2;L,Concord Street,4.5;R,Wharf Street,0.1
+
+    */ 
+
+    let input = prompt("Enter GPS Directions"); 
+
+    const directions = input.split(";"); 
+
+    for(let i = 0; i < directions.length; i++){
+
+        const currentDirection = directions[i].split(","); 
+
+        let leftOrRight = currentDirection[0]; 
+
+        let streetName = currentDirection[1]; 
+
+        let distance = currentDirection[2]; 
+
+        if(leftOrRight == "L"){
+            leftOrRight = "LEFT"; 
+        }else if(leftOrRight = "R"){
+            leftOrRight = "RIGHT"; 
+        }
+
+        document.write(`Go ${leftOrRight} on ${streetName} for ${distance} miles </br>`); 
+    }
+
+
+</script>
+</body>
+</html>
