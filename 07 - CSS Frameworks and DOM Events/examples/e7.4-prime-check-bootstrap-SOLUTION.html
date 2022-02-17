@@ -81,6 +81,7 @@
         const divisors = [];
 
         // first, check if the number is a number 
+        // if(isNan(primeCheck)){}
         if(value - value !== 0){
             // console.log("NOT A NUMBER")
             document.getElementById("numberAlert").style.display = "block";
@@ -92,7 +93,6 @@
             // increment from 2 up to the number that is entered 
             for(let i = 2; i < value; i++){
 
-                // if any of these results is 0, it is prime 
                 if(value % i == 0){
                     isPrime = false; 
 
