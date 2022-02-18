@@ -23,7 +23,7 @@ Use an event to call a function that performs the main calculations and displays
                 href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
                 rel="stylesheet"
                 integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <title>Prime Number Check</title>
+        <title>Tip Calculator</title>
 </head>
 <body>
 
@@ -33,79 +33,84 @@ Use an event to call a function that performs the main calculations and displays
             <div class="col-6">
                 <div class="card mt-5" style = "background-color: #efefef;">
                     <div class="card-body">
-                        <h5 class="card-title"> Prime Number Check </h5> 
 
-                        <p class="card-text"> Enter a whole number </p> 
-
-                        <div class = "input-group mt-3"> 
-                            <input type="text" class="form-control" id="number" placeholder="ex. 3" aria-label="Enter number" aria-describedby="button-addon2">
-
-                            <button class="btn btn-primary" type="button" onclick="isPrime()" id="button-addon2"> Check </button>
+                        <div>
+                            <h5 class="card-title"> Tip Calculator</h5> 
                         </div>
 
-                        <div class="text-center my-5" style="font-size: 80px;">
-                            <span id="isPrime"></span>
+                        <div>
+                            <p class="card-text"> Enter price </p> 
                         </div>
 
-
-                        <div class="text-center my-5" style="font-size: 30px;">
-                            <span id="divisors"></span>
+                        <div class = "input-group mb-3"> 
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="price" placeholder="15.68" aria-label="Enter price">
                         </div>
 
-                        <div class="alert alert-danger" id ='numberAlert' role="alert" style="display: none;">
-                            You must enter a number!
+                        <div style="padding-bottom: 20px;">
+                            <select class="form-select" id="tip" aria-label="Tip Selection" onchange="calculateTip(this)">
+                                <option selected>Select Tip Amount </option> 
+                                <option value=".05">5%</option>
+                                <option value=".10">10%</option>
+                                <option value=".15">15%</option>
+                            </select>
                         </div>
+
+                        <div>
+                            <p class="card-text"> Tip Amount </p> 
+                        </div>
+
+                        <div class = "input-group mb-3"> 
+                            <span class="input-group-text">$</span>
+                            <span id="tipAmount" class="form-control"></span>
+                        </div>
+
+                        <div>
+                            <p class="card-text"> Grand Total </p> 
+                        </div>
+
+                        <div class = "input-group mb-3"> 
+                            <span class="input-group-text">$</span>
+                            <span id="grandTotal" class="form-control"></span>
+
+                        </div>
+
 
                     </div>
                 </div>
             </div>
             <div class="col-3"></div>
-        </div>
     </div>
 
 <script>
 
-    function isPrime() {
-        let isPrime = true;
+    // enter amount id = number 
+    // choose tip id = tip 
+    // tip amount id = tipAmount
+    // grand total id = grandTotal
 
-        let value = document.getElementById('number').value;
+    function calculateTip(tipPercent){
+        // get the tip amount from the dropdown menu 
+        let tip = tipPercent.value; 
+        // console.log(tipAmount);
 
-        const divisors = [];
+        // get the price from the input field 
+        let price = Number(document.getElementById('price').value); 
+        // console.log(price);
 
-        // first, check if the number is a number 
-        if(value - value !== 0){
-            // console.log("NOT A NUMBER")
-            document.getElementById("numberAlert").style.display = "block";
-            // isPrime = null;
-        }
+        // calculate the tip - ensure 2 decimal places
+        let tipAmount = Number((price * tip).toFixed(2)); 
+        console.log(tipAmount);
 
-        // if the value is greater than 1 
-        else if(value > 1){
-            // increment from 2 up to the number that is entered 
-            for(let i = 2; i < value; i++){
+        // calculate the grand total - ensure 2 decimal places 
+        let grandTotal = Number(price + tipAmount).toFixed(2); 
+        console.log(grandTotal);
 
-                // if any of these results is 0, it is prime 
-                if(value % i == 0){
-                    isPrime = false; 
+        // display everything on the UI 
+        document.getElementById('tipAmount').innerHTML  = tipAmount; 
+        document.getElementById('grandTotal').innerHTML = grandTotal; 
 
-                    // add it to the divisors list 
-                    divisors.push(i); 
-                }
-            }
-        }else{
-            isPrime = false; 
-        }
-
-        if(isPrime){
-            document.getElementById('isPrime').innerHTML = "PRIME :)"; 
-            document.getElementById('divisors').innerHTML = " ";
-
-        }else{
-            document.getElementById('isPrime').innerHTML = "NOT PRIME :("; 
-            document.getElementById('divisors').innerHTML = `Divisors: ${divisors}`; 
-        }
     }
-
 </script>
 </body>
 </html>
