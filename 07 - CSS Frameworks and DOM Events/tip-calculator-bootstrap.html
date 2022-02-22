@@ -100,11 +100,11 @@ Use an event to call a function that performs the main calculations and displays
 
         // calculate the tip - ensure 2 decimal places
         let tipAmount = Number((price * tip).toFixed(2)); 
-        console.log(tipAmount);
+        // console.log(tipAmount);
 
         // calculate the grand total - ensure 2 decimal places 
         let grandTotal = Number(price + tipAmount).toFixed(2); 
-        console.log(grandTotal);
+        // console.log(grandTotal);
 
         // display everything on the UI 
         document.getElementById('tipAmount').innerHTML  = tipAmount; 
