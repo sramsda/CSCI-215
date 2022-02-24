@@ -1,11 +1,13 @@
 <?php
 // added to allow AJAX calls from different host names
+// values added to header in HTTP request, hidden to user, metadata about the request 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
 header('Content-Type: application/json');
 
 // array of product information
+// list of name/value pairs 
 $inventory = [
     [
         "id" => "d05347de-491f-11ec-81d3-0242ac130000",
@@ -46,17 +48,35 @@ $inventory = [
 
 // build the result depending on whether or not an id to a product is provided
 $results = [];
+
+// GET is looking for an ID, if it is included in the url (is there a parameter with name id?)
 if ($_GET['id']) {
+    // store id from url in a variable
     $id = $_GET['id'];
+
+    // loop through the array
     foreach ($inventory as $item) {
+
+        // if you have the id in the array
         if ($id === $item['id']) {
+
+            // set that as result
             $results = $item;
         }
     }
+  // if the id isn't in there
 } else {
+
+    // return the whole array
     $results = $inventory;
 }
 
+// convert the array into something json compatible 
 echo json_encode($results);
 
+// this url returns info on apple
+// https://tcmoorer.people.cofc.edu/CSCI215/Spring2022/08/e8.5-products.php?id=d05347de-491f-11ec-81d3-0242ac130000
+
+// this url returns all items
+// https://tcmoorer.people.cofc.edu/CSCI215/Spring2022/08/e8.5-products.php
 ?>

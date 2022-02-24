@@ -1,3 +1,49 @@
+<!--
+
+    ======================================================================================================
+     Student Certification
+    ======================================================================================================
+
+    This assignment is individual work only!
+
+    I certify that I have written this code myself. Nobody else has written it for me. I have not copied and
+    pasted it from somebody else. I have solved these problems myself using the materials used in class.
+
+    If I am found guilty of breaking these rules or conducting other dishonest actions while working on this
+    assignment, I understand that I will receive a score of 0 for this assignment, and that the instructor may
+    report my dishonesty for a conduct review by the Dean of Student Affairs which could result in an F in
+    this course.
+
+    I acknowledge the above rules of this assignment.
+
+    NAME:
+    DATE:
+
+    ======================================================================================================
+
+
+    Client Server Form
+
+    Modify this file according to the instructions below:
+
+    1. Rename Quiz.06-ClientServerContactForm.html to Quiz.06-ClientServerForm-<YourName>.html.
+    2. Within the <form> change the userName field to represent a first name only. This should include related
+       validation code.
+    3. Within the <form> add additional fields for lastName, emailAddress, and phoneNumber. In the JavaScript,
+       add handling and validation similar to userName below.
+    4. Change the form action (i.e. the URL) by replacing XXX with your student account and the path to e8.3-echo.php.
+    5. Test the modifications. Fill out and submit the form. Attach a screenshot of the result of submitting
+       the form in your browser.
+
+    Submitting the Quiz
+
+    Make sure your solution file is called Quiz.06-ClientServerForm-<YourName>.html
+    (example Quiz.06-ClientServerForm-ThomasMoorer.html) and use zip to compress the file.
+
+    ** Please make sure to zip the html file before submitting so that the solution
+    ** file doesn't get altered by OAKs.
+
+-->
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
@@ -26,14 +72,9 @@
             <div id="respMsgAlert" class="alert alert-danger visually-hidden" role="alert">
                 <div id="respMsgText"></div>
             </div>
-
-            <!-- action element is what resource is called when form is submitted -->
-            <form name="formOne" action="https://ramsdensl.students.cofc.edu/CSCI215_Spring2022/08/e8.3-echo.php" method="get"> <!-- method- "post"-->
-
+            <form name="formOne" action="https://XXX/CSCI215/Spring2022/08/e8.3-echo.php" method="get">
                 <div class="mb-3">
                     <label for="userName" class="form-label"><span class="required">*</span> Name</label>
-
-                    <!-- name="" is key value pair tacked onto end of PHP url. name is userName (like a variable), value is whatever is in userName-->
                     <input type="text" class="form-control" name="userName" id="userName" onfocus="clearUserNameValidation()" onblur="validateName()">
                     <div id="userNameValidation" class="errorMsg"></div>
                 </div>
@@ -52,13 +93,12 @@
      *  Submit form if valid
      */
     function submitForm(){
-        // do additional form validation
         if (pageIsValid) {
             // clear alert info and hide
             document.getElementById('respMsgText').innerHTML = '';
             document.getElementById('respMsgAlert').classList.add('visually-hidden');
             // submit the form info
-            document.formOne.submit(); // submit() built in on name of form
+            document.formOne.submit();
         } else {
             // set alert text and show
             document.getElementById('respMsgText').innerHTML = 'Form is not valid. Please correct errors before submitting.';
