@@ -16,8 +16,8 @@
 
     I acknowledge the above rules of this assignment.
 
-    NAME:
-    DATE:
+    NAME: Sammi Ramsden
+    DATE: Feb 25, 2022
 
     ======================================================================================================
 
@@ -72,12 +72,36 @@
             <div id="respMsgAlert" class="alert alert-danger visually-hidden" role="alert">
                 <div id="respMsgText"></div>
             </div>
-            <form name="formOne" action="https://XXX/CSCI215/Spring2022/08/e8.3-echo.php" method="get">
+            <form name="formOne" action="https://ramsdensl.students.cofc.edu/CSCI215_Spring2022/08/e8.3-echo.php" method="get">
                 <div class="mb-3">
-                    <label for="userName" class="form-label"><span class="required">*</span> Name</label>
-                    <input type="text" class="form-control" name="userName" id="userName" onfocus="clearUserNameValidation()" onblur="validateName()">
-                    <div id="userNameValidation" class="errorMsg"></div>
+                    <label for="firstName" class="form-label"><span class="required">*</span> First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="firstName" onfocus="clearValidation('firstNameValidation')" onblur="validateFirstName()">
+
+                    <div id="firstNameValidation" class="errorMsg"></div>
                 </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label"><span class="required">*</span> Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName" onfocus="clearValidation('lastNameValidation')" onblur="validateLastName()">
+
+                    <div id="lastNameValidation" class="errorMsg"></div>
+                </div> 
+
+                <div class="mb-3">
+                    <label for="email" class="form-label"><span class="required">*</span> Email Address</label>
+                    <input type="text" class="form-control" name="email" id="email" onfocus="clearValidation('emailValidation')" onblur="validateEmail()">
+
+                    <div id="emailValidation" class="errorMsg"></div>
+                </div>
+
+                
+                <div class="mb-3">
+                    <label for="phone" class="form-label"><span class="required">*</span> Phone Number</label>
+                    <input type="text" class="form-control" name="phone" id="phone" onfocus="clearValidation('phoneValidation')" onblur="validatePhone()">
+
+                    <div id="phoneValidation" class="errorMsg"></div>
+                </div>
+
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
             </form>
             <span class="required">*</span> denotes a value is required to proceed.
@@ -86,8 +110,9 @@
     </div>
 </div>
 <script>
-    const NAME_MAX_LENGTH = 20;
-    let pageIsValid = false;
+    const NAME_MAX_LENGTH = 15;
+    const PHONE_NUMBER_LENGTH = 10; 
+    let pageIsValid = true;
 
     /**
      *  Submit form if valid
@@ -109,24 +134,113 @@
     /**
      * Clear validation
      */
-    function clearUserNameValidation() {
-        document.getElementById('userNameValidation').innerHTML = '';
+    function clearValidation(idName) {
+        document.getElementById(idName).innerHTML = '';
+        // console.log(idName)
     }
 
-    /**
-     * Validate the Name provided
-     */
-    function validateName() {
-        let userName = document.getElementById('userName').value;
-        if (userName.length === 0) {
-            document.getElementById('userNameValidation').innerHTML = 'Name is required!';
-            pageIsValid = false;
-        } else if (userName.length > NAME_MAX_LENGTH) {
-            document.getElementById('userNameValidation').innerHTML = `Name cannot exceed ${NAME_MAX_LENGTH} characters!`;
-            pageIsValid = false;
-        } else {
-            pageIsValid = true;
+    // test string for spaces 
+    function hasWhiteSpace(str){
+        let whiteSpace = false; 
+
+        if(str.indexOf(' ') >= 0){
+            whiteSpace = true; 
         }
+
+        return whiteSpace; 
+    }
+
+    // test if string has @ symbol (is an email)
+    function isEmail(str){
+        let isEmailAddress = false; 
+
+        if(str.indexOf('@') >= 0){
+            isEmailAddress = true; 
+        }
+
+        return isEmailAddress
+    }
+
+    // validate each field of the form
+
+    // validate first name
+    function validateFirstName(){
+        let firstName = document.getElementById('firstName').value; 
+
+        if(firstName.length === 0){
+            document.getElementById('firstNameValidation').innerHTML = 'First name is required!';
+            pageIsValid = false;
+            console.log("FIRST NAME LENGTH 1")
+
+        } else if(firstName.length > NAME_MAX_LENGTH){
+            document.getElementById('firstNameValidation').innerHTML = `Name cannot exceed ${NAME_MAX_LENGTH} characters!`;
+            pageIsValid = false;
+            console.log("FIRST NAME LENGTH 2")
+
+        } else if(hasWhiteSpace(firstName)){
+            document.getElementById('firstNameValidation').innerHTML = `Enter first name only!`;
+            pageIsValid = false;    
+            console.log("FIRST NAME WHITESPACE")
+        }else{
+            pageIsValied = true; 
+        }
+
+        console.log(pageIsValid)
+    }
+
+    function validateLastName(){
+        let lastName = document.getElementById('lastName').value; 
+        // console.log(firstName)
+
+        if(lastName.length === 0){
+            document.getElementById('lastNameValidation').innerHTML = 'Last name is required!';
+            pageIsValid = false;
+        } else if(lastName.length > NAME_MAX_LENGTH){
+            document.getElementById('lastNameValidation').innerHTML = `Name cannot exceed ${NAME_MAX_LENGTH} characters!`;
+            pageIsValid = false;
+        } else if(hasWhiteSpace(lastName)){
+            document.getElementById('lastNameValidation').innerHTML = `Enter last name only!`;
+            pageIsValid = false;    
+        }else{
+            pageIsValid = true; 
+        }
+
+        console.log(pageIsValid)
+
+    }
+
+    function validateEmail(){
+        let email = document.getElementById('email').value;
+
+        if(email.length === 0){
+            document.getElementById('emailValidation').innerHTML = 'Email is required!';
+            pageIsValid = false;
+        } else if(isEmail(email) == false){
+            document.getElementById('emailValidation').innerHTML = `Enter a valid email`;
+            pageIsValid = false;    
+        }else{
+            pageIsValid = true; 
+        }
+        // console.log(isEmail(email))
+        console.log(pageIsValid)
+
+
+    }
+
+    function validatePhone(){
+        let phoneNumber = document.getElementById('phone').value; 
+
+        if(phoneNumber - phoneNumber !== 0){
+            document.getElementById('phoneValidation').innerHTML = 'Enter a phone number <br> ex. 8005804890';
+            pageIsValid = false;
+        } else if(phoneNumber.length != PHONE_NUMBER_LENGTH){
+            document.getElementById('phoneValidation').innerHTML = `Phone number must be ${PHONE_NUMBER_LENGTH} numbers`;
+            pageIsValid = false;
+        }else{
+            pageIsValid = true; 
+        }
+        console.log(pageIsValid)
+
     }
 
 </script>
