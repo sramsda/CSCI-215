@@ -44,7 +44,7 @@ Use an event to call a function that performs the main calculations and displays
 
                         <div class = "input-group mb-3"> 
                             <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="price" placeholder="15.68" aria-label="Enter price">
+                            <input type="number" class="form-control" id="price"  aria-label="Enter price">
                         </div>
 
                         <div style="padding-bottom: 20px;">
@@ -95,26 +95,33 @@ Use an event to call a function that performs the main calculations and displays
         "grandTotal": null
     }; 
 
-    function calculateTip(tipPercent){
+    function init(){
+        tipCalculatorModel.amount = Number(0.00);
+        tipCalculatorModel.tipPercent = Number(.00);
+        tipCalculatorModel.tipAmount = Number(0.00);
+        tipCalculatorModel.grandTotal = Number(0.00);
+    }
+
+    function calculateTip(percent){
         // get the tip amount from the dropdown menu 
-        let tip = tipPercent.value; 
+        tipCalculatorModel.tipPercent = percent.value; 
         // console.log(tipAmount);
 
         // get the price from the input field 
-        let price = Number(document.getElementById('price').value); 
+        tipCalculatorModel.amount = Number(document.getElementById('price').value); 
         // console.log(price);
 
         // calculate the tip - ensure 2 decimal places
-        let tipAmount = Number((price * tip).toFixed(2)); 
+        tipCalculatorModel.tipAmount = Number((tipCalculatorModel.amount * tip).toFixed(2)); 
         // console.log(tipAmount);
 
         // calculate the grand total - ensure 2 decimal places 
-        let grandTotal = Number(price + tipAmount).toFixed(2); 
+        tipCalculatorModel.grandTotal = Number(tipCalculatorModel.amount + tipCalculatorModel.tipAmount).toFixed(2); 
         // console.log(grandTotal);
 
         // display everything on the UI 
-        document.getElementById('tipAmount').innerHTML  = tipAmount; 
-        document.getElementById('grandTotal').innerHTML = grandTotal; 
+        document.getElementById('tipAmount').innerHTML  = tipCalculatorModel.tipAmount; 
+        document.getElementById('grandTotal').innerHTML = tipCalculatorModel.grandTotal; 
 
     }
 </script>

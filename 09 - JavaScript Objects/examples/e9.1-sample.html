@@ -1,16 +1,20 @@
 <html>
-<body onload="init()">
+<body onload="init()"> <!-- initialize on page load -->
 <h1>JavaScript Object Example</h1>
 <div id="results"></div>
 <script>
+    // empty object 
     const myObj = {
-        name: "",
-        cars: []
+        name: "", // initialized to empty string
+        cars: [] // initialized to empty array 
     }
 
+    // function to set values of object 
     function init() {
         myObj.name = "Dave";
-        myObj.age = 42;
+        myObj.age = 42; // can add an attribute that wasn't created in declaration
+
+        // array of objects as cars attribute 
         myObj.cars = [
             {
                 name:"Ford",
@@ -26,17 +30,32 @@
         printResults();
     }
 
+
+    // parse through the object to print it 
     function printResults() {
         let outputString = '';
+
+        // display name and age 
         outputString += `<h2>Name: ${myObj.name} (${myObj.age})</h2>`;
+
+        // display car inventory 
         outputString += `<h3>Car Inventory</h3>`;
+
         // print array values
         for (let i in myObj.cars) {
+            // get the name of each car in the list 
             outputString += `<h4>${myObj.cars[i].name}</h4>`;
+
+            // build an ordered list
             outputString += `<ol>`;
+
+            // add every model that is listed in the cars array 
             for (let j in myObj.cars[i].models) {
+                // get model name: myObj.cars[i].models[j]
                 outputString += `<li>${myObj.cars[i].models[j]}</li>`;
             }
+
+            // close ordered list 
             outputString += `</ol>`;
         }
         document.getElementById('results').innerHTML = outputString;
