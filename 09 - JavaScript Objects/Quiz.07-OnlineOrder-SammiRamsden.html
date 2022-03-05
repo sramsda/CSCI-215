@@ -1,0 +1,477 @@
+<!--
+
+    ======================================================================================================
+     Student Certification
+    ======================================================================================================
+
+    This assignment is individual work only!
+
+    I certify that I have written this code myself. Nobody else has written it for me. I have not copied and
+    pasted it from somebody else. I have solved these problems myself using the materials used in class.
+
+    If I am found guilty of breaking these rules or conducting other dishonest actions while working on this
+    assignment, I understand that I will receive a score of 0 for this assignment, and that the instructor may
+    report my dishonesty for a conduct review by the Dean of Student Affairs which could result in an F in
+    this course.
+
+    I acknowledge the above rules of this assignment.
+
+    NAME: Sammi Ramsden
+    DATE: 3/4/22
+
+    ======================================================================================================
+
+
+    Quiz No.7: Submit On-Line Order
+    ------------------------------------------------------------------------------------------------------
+    Based on the orderInfo model below create a UI using Bootstrap and JavaScript so that a user can provide their
+    personal info and shipping location for an online order.
+
+    The solution should include the following elements:
+
+    - Use Bootstrap's grid for layout
+    - The 'customer' attribute should include: first and last name, email address, and phone number.
+    - The 'shippingAddress' attribute should include: streetAddress, city, state, postal code, and country.
+    - The 'cart' attribute will include an array of objects with following values:
+        - id - a unique number
+        - desc - a description of the item. Max 100 chars
+        - unitPrice - the unit price of the item
+        - quantity - the number of units for the item
+    - Create an init() method that initializes the object with default values.
+    - The init() method will hard code (or provide) the list of items. You can define the list with the values
+      you choose, but there must be a minimum of 3 items in the cart. The UI will only display the Cart information.
+      Provide calculations for an extended total (unitPrice * quantity), subTotal, tax (assume 6%), and the grand total.
+    - The UI should validate the user input. Where applicable use regex for input validation.
+    - If there are validation errors, display an alert and explain the error to the users.
+    - If the form is valid, submit to the e8.3-echo.php script hosted on your student web account.
+
+    Submitting the Quiz
+    -------------------
+    Create a file called OnLineOrder-<YourName>.html (example OnLineOrder-ThomasMoorer.html) and use zip
+    to compress the file.
+
+    Please make sure to zip the html file before submitting so that the solution file doesn't get altered by OAKs.
+
+-->
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+    rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+    crossorigin="anonymous">
+</head>
+<style>
+    .errorMsg {
+        color:red;
+        font-weight: bold;
+    }
+
+</style>
+<body onload="init()">
+<h1>Online Order</h1>
+<div class="container">
+    <div class="row">
+
+        <!-- user input-->
+        <div class="col-6">
+            <h1 class="mt-3">Customer Info</h1>
+
+            <h4 class="mt-3"><br>Enter Contact Info<br></h4>
+            <div id="respMsgAlert" class="alert alert-danger visually-hidden" role="alert">
+                <div id="respMsgText"></div>
+            </div>
+
+            <form name="formOne" action="https://ramsdensl.students.cofc.edu/CSCI215_Spring2022/08/e8.3-echo.php" method="get">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label"> First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="firstName" onfocus="clearValidation('firstNameValidation')" onblur="validateFirstName()">
+
+                    <div id="firstNameValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName" onfocus="clearValidation('lastNameValidation')" onblur="validateLastName()">
+
+                    <div id="lastNameValidation" class="errorMsg"></div>
+                </div> 
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="text" class="form-control" name="email" id="email" onfocus="clearValidation('emailValidation')" onblur="validateEmail()">
+
+                    <div id="emailValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label"> Phone Number</label>
+                    <input type="text" class="form-control" name="phone" id="phone" onfocus="clearValidation('phoneValidation')" onblur="validatePhone()">
+
+                    <div id="phoneValidation" class="errorMsg"></div>
+                </div>
+
+                <div><h4 class="mt-3"><br>Enter Address Info<br></h4></div>
+
+                <div class="mb-3">
+                    <label for="streetAddress" class="form-label"> Street Address</label>
+                    <input type="text" class="form-control" name="streetAddress" id="streetAddress" onfocus="clearValidation('streetAddress')" onblur="validateAddress('streetAddress')">
+
+                    <div id="addressValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="city" class="form-label"> City</label>
+                    <input type="text" class="form-control" name="city" id="city" onfocus="clearValidation('city')" onblur="validateAddress('city')">
+
+                    <div id="cityValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="state" class="form-label"> State</label>
+                    <input type="text" class="form-control" name="state" id="state" onfocus="clearValidation('state')" onblur="validateAddress('state')">
+
+                    <div id="stateValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="postal" class="form-label"> Postal Code</label>
+                    <input type="text" class="form-control" name="postal" id="postal" onfocus="clearValidation('postal')" onblur="validateAddress('postal')">
+
+                    <div id="postalValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="country" class="form-label"> Country</label>
+                    <input type="text" class="form-control" name="country" id="country" onfocus="clearValidation('country')" onblur="validateAddress('country')">
+
+                    <div id="addressValidation" class="errorMsg"></div>
+                </div>
+
+
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+            </form>
+        </div> 
+
+        <div class="col-6">
+            <h1 class="mt-3">Customer Cart</h1>
+            <div id="cart"> </div>
+        </div> 
+
+   
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    const NAME_MAX_LENGTH = 15;
+    const PHONE_NUMBER_LENGTH = 10; 
+    let pageIsValid = true;
+
+    const orderInfo = {
+        "customer":  " ",
+        "shippingAddress":  " ",
+        "cart": []
+    };
+
+    function init() {
+        orderInfo.customer = {}; 
+        orderInfo.customer.firstName = " "; 
+        orderInfo.customer.lastName = " "; 
+
+        orderInfo.shippingAddress.streetAddress = " "; 
+        orderInfo.shippingAddress.city = " "; 
+        orderInfo.shippingAddress.state = " "; 
+        orderInfo.shippingAddress.postalCode = " "; 
+        orderInfo.shippingAddress.country = " "; 
+
+        orderInfo.cart = [
+            {
+                id: '001',
+                desc: 'White T-Shirt',
+                unitPrice: 5.45, 
+                quantity: 3
+            },{
+                id: '123',
+                desc: 'Denim Jacket',
+                unitPrice: 17.80, 
+                quantity: 2
+            },{
+                id: '876',
+                desc: 'Tennis Shoes',
+                unitPrice: 25.46, 
+                quantity: 4
+            },{
+                id: '429',
+                desc: 'Black Dress Pants',
+                unitPrice: 10.99, 
+                quantity: 5
+            }
+        ]
+
+        calculateCartTotal(); 
+    }
+
+    function calculateCartTotal(){
+        let outputString = ''; 
+        let subtotal = 0; 
+
+        for(let key in orderInfo){
+            let value = orderInfo[key]
+
+            if(key == "cart"){
+
+                outputString += `<br>`; 
+ 
+                const cartArray = orderInfo[key]; 
+
+
+                for(let i =0; i < cartArray.length; i++){
+                    let itemId = cartArray[i].id;
+                    let itemDesc = cartArray[i].desc;
+                    let itemValue = (cartArray[i].unitPrice * cartArray[i].quantity).toFixed(2);
+                    outputString += `(${itemId}) ${itemDesc}: $${itemValue} ($${cartArray[i].unitPrice} x ${cartArray[i].quantity})<br>`;
+
+                    subtotal += Number(itemValue);
+                }
+            }
+        }
+
+        let tax = Number((.06 * subtotal).toFixed(2)); 
+        let grandtotal = Number((subtotal + tax).toFixed(2)); 
+
+        outputString += "-----------------------------------<br>";
+        outputString += `Subtotal: $${subtotal}<br>`; 
+        outputString += `Tax (6%): $${tax}<br>`; 
+        outputString += `Grand Total: $${grandtotal}<br>`; 
+
+
+        document.getElementById('cart').innerHTML = outputString;
+    }
+
+    function updateCustomerInfo(field, value){
+        // let field = document.getElementById(idName).value; 
+
+        // console.log(field)
+        // console.log(value)
+        // console.log(orderInfo)
+
+        if(field == 'firstName'){
+            orderInfo.customer.firstName = value;
+            // console.log(orderInfo.customer.firstName);
+        }else if(field == 'lastName'){
+            orderInfo.customer.lastName = value;
+        }else if(field == 'streetAddress'){
+            orderInfo.shippingAddress.streetAddress = value;
+        }else if(field == 'city'){
+            orderInfo.shippingAddress.city = value;
+        }else if(field == 'state'){
+            orderInfo.shippingAddress.state = value;
+        }else if(field == 'postal'){
+            orderInfo.shippingAddress.postalCode = value;
+        }else if(field == 'country'){
+            orderInfo.shippingAddress.country = value;
+        }
+    }
+
+
+
+
+    /**
+     *  Submit form if valid
+     */
+    function submitForm(){
+        if (pageIsValid) {
+            // clear alert info and hide
+            document.getElementById('respMsgText').innerHTML = '';
+            document.getElementById('respMsgAlert').classList.add('visually-hidden');
+            // submit the form info
+            document.formOne.submit();
+        } else {
+            // set alert text and show
+            document.getElementById('respMsgText').innerHTML = 'Form is not valid. Please correct errors before submitting.';
+            document.getElementById('respMsgAlert').classList.remove('visually-hidden');
+        }
+    }
+
+    /**
+     * Clear validation
+     */
+    function clearValidation(idName) {
+        document.getElementById(idName).innerHTML = '';
+        // console.log(idName)
+    }
+
+    // test string for spaces 
+    function hasWhiteSpace(str){
+        let whiteSpace = false; 
+
+        if(str.indexOf(' ') >= 0){
+            whiteSpace = true; 
+        }
+
+        return whiteSpace; 
+    }
+
+    // test if string has @ symbol (is an email)
+    function isEmail(str){
+        let isEmailAddress = false; 
+
+        if(str.indexOf('@') >= 0){
+            isEmailAddress = true; 
+        }
+
+        return isEmailAddress;
+    }
+
+    function validateAddress(idName){
+        let value = document.getElementById(idName).value;
+        // console.log(`ID: ${idName}`)
+        // console.log(`Value: ${value}`)
+
+
+        if(idName == 'streetAddress'){
+            if(value.length == 0){
+                document.getElementById('addressValidation').innerHTML = 'Street address required'; 
+                pageIsValid = false; 
+            }
+            else{
+                updateCustomerInfo(idName, value); 
+                pageIsValid = true; 
+            }
+
+        } else if(idName == 'city'){
+            if(value.match(/^[A-Za-z]+$/)){
+                // console.log("MATCH");
+                pageIsValid = true;
+            }else if(value.length ==0){
+                document.getElementById('cityValidation').innerHTML = 'City required'; 
+                pageIsValid = false; 
+            }else{
+                pageIsValid = false; 
+                document.getElementById('cityValidation').innerHTML = 'Enter Valid City!';
+            }
+
+        }else if(idName == 'state'){
+            if(value.length == 0){
+                document.getElementById('stateValidation').innerHTML = 'State required'; 
+                pageIsValid = false; 
+            }else{
+                pageIsValid = true; 
+            }
+
+        }else if(idName == 'postal'){
+            if(value.match('^[0-9]+$')){
+                // console.log("MATCH");
+                pageIsValid = true; 
+                document.getElementById('postalValidation').innerHTML = '';
+            }else if(value.length ==0){
+                document.getElementById('postalValidation').innerHTML = 'Postal code required'; 
+                pageIsValid = false; 
+            }else if(value.length > 5){
+                pageIsValid = false;
+                document.getElementById('postalValidation').innerHTML = 'Postal code must be 5 digits!';
+            }else{
+                pageIsValid = false; 
+                document.getElementById('postalValidation').innerHTML = 'Enter Valid Postal code!';
+            }
+
+        }else if(idName == 'country'){
+            if(value.match(/^[A-Za-z]+$/)){
+                // console.log("MATCH");
+                pageIsValid = true; 
+            }else if(value.length ==0){
+                document.getElementById('stateValidation').innerHTML = 'Street address required'; 
+                pageIsValid = false; 
+            }else{
+                pageIsValid = false; 
+                document.getElementById('stateValidation').innerHTML = 'Enter Valid Country!';
+            }
+        }
+
+    }
+
+    // validate each field of the form
+    // validate first name
+    function validateFirstName(){
+        let firstName = document.getElementById('firstName').value; 
+
+        if(firstName.length === 0){
+            document.getElementById('firstNameValidation').innerHTML = 'First name is required!';
+            pageIsValid = false;
+            // console.log("FIRST NAME LENGTH 1")
+
+        } else if(firstName.length > NAME_MAX_LENGTH){
+            document.getElementById('firstNameValidation').innerHTML = `Name cannot exceed ${NAME_MAX_LENGTH} characters!`;
+            pageIsValid = false;
+            // console.log("FIRST NAME LENGTH 2")
+
+        } else if(hasWhiteSpace(firstName)){
+            document.getElementById('firstNameValidation').innerHTML = `Enter first name only!`;
+            pageIsValid = false;    
+            // console.log("FIRST NAME WHITESPACE")
+        }else{
+            pageIsValied = true; 
+            updateCustomerInfo('firstName', firstName);
+        }
+
+        // console.log(pageIsValid)
+    }
+
+    function validateLastName(){
+        let lastName = document.getElementById('lastName').value; 
+        // console.log(firstName)
+
+        if(lastName.length === 0){
+            document.getElementById('lastNameValidation').innerHTML = 'Last name is required!';
+            pageIsValid = false;
+        } else if(lastName.length > NAME_MAX_LENGTH){
+            document.getElementById('lastNameValidation').innerHTML = `Name cannot exceed ${NAME_MAX_LENGTH} characters!`;
+            pageIsValid = false;
+        } else if(hasWhiteSpace(lastName)){
+            document.getElementById('lastNameValidation').innerHTML = `Enter last name only!`;
+            pageIsValid = false;    
+        }else{
+            pageIsValid = true; 
+            updateCustomerInfo('lastName', lastName);
+        }
+
+        // console.log(pageIsValid)
+
+    }
+
+    function validateEmail(){
+        let email = document.getElementById('email').value;
+
+        if(email.length === 0){
+            document.getElementById('emailValidation').innerHTML = 'Email is required!';
+            pageIsValid = false;
+        } else if(isEmail(email) == false){
+            document.getElementById('emailValidation').innerHTML = `Enter a valid email`;
+            pageIsValid = false;    
+        }else{
+            pageIsValid = true; 
+        }
+        // console.log(isEmail(email))
+        // console.log(pageIsValid)
+
+
+    }
+
+    function validatePhone(){
+        let phoneNumber = document.getElementById('phone').value; 
+
+        if(phoneNumber - phoneNumber !== 0){
+            document.getElementById('phoneValidation').innerHTML = 'Enter a phone number <br> ex. 8005804890';
+            pageIsValid = false;
+        } else if(phoneNumber.length != PHONE_NUMBER_LENGTH){
+            document.getElementById('phoneValidation').innerHTML = `Phone number must be ${PHONE_NUMBER_LENGTH} numbers`;
+            pageIsValid = false;
+        }else{
+            pageIsValid = true; 
+        }
+        // console.log(pageIsValid)
+
+    }
+
+</script>
+</body>
+</html>
