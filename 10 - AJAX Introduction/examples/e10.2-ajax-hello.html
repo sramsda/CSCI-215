@@ -7,13 +7,51 @@
     In both cases the content from the remote resource is simply displayed to the user without modification.
 -->
 <html>
-<body>
+<body onload="init()">
 <div id="hello"></div>
 <div id="world"></div>
 <script>
 
-    //TODO
+    function init(){
+        loadHello();
+        loadWorld(); 
+    }
 
+
+    /**
+     * Load remote content 
+     */
+    function loadHello() {
+        // create HMLHttpRequest 
+        const ajaxRequest = new XMLHttpRequest(); 
+
+        // in order to process the request, define the onload function 
+        ajaxRequest.onload = function(){
+            // process response - display on DOM 
+            document.getElementById('hello').innerHTML = ajaxRequest.responseText; 
+        }
+
+        // send request 
+        ajaxRequest.open("GET", "https://ramsdensl.stu.cofc.edu/CSCI215_Spring2022/10/e10.2-hello.php"); 
+        
+        ajaxRequest.send(); 
+    }
+
+    function loadWorld() {
+        // create HMLHttpRequest 
+        const ajaxRequest = new XMLHttpRequest(); 
+
+        // in order to process the request, define the onload function 
+        ajaxRequest.onload = function(){
+            // process response - display on DOM 
+            document.getElementById('world').innerHTML = ajaxRequest.responseText; 
+        }
+
+        // send request 
+        ajaxRequest.open("GET", "https://ramsdensl.stu.cofc.edu/CSCI215_Spring2022/10/e10.2-world.php"); 
+        ajaxRequest.send(); 
+    }
+    
 </script>
 </body>
 </html>
