@@ -20,6 +20,7 @@
         <div class="col-3">
             <h2>Product IDs</h2>
             <ul>
+                <!-- each item is kind of like a link-->
                 <li class="cursor" onclick="loadRemoteContent('d05347de-491f-11ec-81d3-0242ac130000')">Apple</li>
                 <li class="cursor" onclick="loadRemoteContent('d05347de-491f-11ec-81d3-0242ac130001')">Banana</li>
                 <li class="cursor" onclick="loadRemoteContent('d05349fa-491f-11ec-81d3-0242ac130002')">Cherry</li>
@@ -34,8 +35,23 @@
     </div>
 </div>
 <script>
-    //TODO
 
+    //TODO
+    function loadRemoteContent(id){
+        // console.log(id)
+        // create HMLHttpRequest 
+        const ajaxRequest = new XMLHttpRequest(); 
+
+        // in order to process the request, define the onload function 
+        ajaxRequest.onload = function(){
+            // process response - display on DOM 
+            document.getElementById('additionalInfo').innerHTML = ajaxRequest.responseText; 
+        }
+
+        // send request 
+        ajaxRequest.open("GET", "https://ramsdensl.stu.cofc.edu/CSCI215_Spring2022/10/e10.3-products.php?id="+id); 
+        ajaxRequest.send(); 
+    }
 </script>
 </body>
 </html>
