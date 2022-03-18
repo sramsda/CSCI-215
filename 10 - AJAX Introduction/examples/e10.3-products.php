@@ -60,4 +60,6 @@ if ($_GET['id']) {
 
 echo $result;
 
+
 ?>
+

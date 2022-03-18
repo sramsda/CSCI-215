@@ -1,0 +1,63 @@
+<!--
+    Use AJAX to call e10.3-ajax-products.php and load the results in the DOM.
+
+    This example illustrates a technique of providing an id to a simple GET request and displaying the response.
+-->
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+          crossorigin="anonymous">
+    <style>
+        .cursor {
+            cursor: pointer;
+        }
+        .cursor:hover{
+            color:blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <h2>Stock Market Symbols</h2>
+            <ul>
+                <!-- each item is kind of like a link-->
+                <li class="cursor" onclick="loadRemoteContent('DIDI')">DIDI</li>
+                <li class="cursor" onclick="loadRemoteContent('STNE')">StoneCo Ltd.</li>
+                <li class="cursor" onclick="loadRemoteContent('NVDA')">NVDA</li>
+                <li class="cursor" onclick="loadRemoteContent('GME')">GME</li>
+                <li class="cursor" onclick="loadRemoteContent('TSLA')">TSLA</li>
+            </ul>
+        </div>
+        <div class="col-4">
+            <h2>Company Name</h2>
+            <div id="companyName"></div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+<script>
+
+    //TODO
+    function loadRemoteContent(symbol){
+        // console.log(id)
+        // create HMLHttpRequest 
+        const ajaxRequest = new XMLHttpRequest(); 
+
+        // in order to process the request, define the onload function 
+        ajaxRequest.onload = function(){
+            // process response - display on DOM 
+            document.getElementById('companyName').innerHTML = ajaxRequest.responseText; 
+        }
+
+        // send request 
+        ajaxRequest.open("GET", "https://ramsdensl.stu.cofc.edu/CSCI215_Spring2022/10/stock-info.php?symbol="+symbol); 
+        ajaxRequest.send(); 
+    }
+</script>
+</body>
+</html>
