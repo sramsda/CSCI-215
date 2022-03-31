@@ -27,6 +27,8 @@ See Section 10. Go on. Go back and look there.
 ### What is JSON?
 
 JSON stands for JavaScript Object Notation.
+- send info between computers (PHP and AJAX)
+- text only 
 
 	• JSON is a lightweight data-interchange format
 	• JSON is plain text written in JavaScript object notation
@@ -50,8 +52,10 @@ JavaScript has a built-in function for converting JSON strings into JavaScript o
 `JSON.parse()`
 
 JavaScript also has a built in function for converting an object into a JSON string:
+- take JSON string and turn to object
 
 `JSON.stringify()`
+- take object and turn into string 
 
 You can receive pure text from a server and use it as a JavaScript object.
 You can send a JavaScript object to a server in pure text format.
@@ -162,8 +166,8 @@ const myJSON = JSON.stringify(arr);
 
 PHP supports the JavaScript Object Notation data-interchange format via the following functions:
 
-| Function | Description |
-|---|---|
+| Function        | Description |
+|---              |
 | `json_decode()` | Decodes a JSON string |
 | `json_encode()` | Encode a value to JSON format |                           
 
@@ -177,15 +181,17 @@ json_decode(string, assoc, depth, options)
 ```
 
 | Parameter | Description |
-|----|----|
-| string | Required. Specifies the value to be decoded |
-| assoc | Optional. Specifies a Boolean value. When set to true, the returned object will be converted into an associative array. When set to false, it returns an object. False is default |
-| depth | Optional. Specifies the recursion depth. Default recursion depth is 512 |
-| options | Optional. Specifies a bitmask (JSON_BIGINT_AS_STRING, JSON_INVALID_UTF8_IGNORE, JSON_INVALID_UTF8_SUBSTITUTE, JSON_OBJECT_AS_ARRAY, JSON_THROW_ON_ERROR) |
+|           |
+| string    | Required. Specifies the value to be decoded |
+|           |
+| assoc     | Optional. Specifies a Boolean value. When set to true, the returned object will be converted into an associative array. When set to false, it returns an object. False is default 
 
+| depth     | Optional. Specifies the recursion depth. Default recursion depth is 512 |
 
+| options   | Optional. Specifies a bitmask (JSON_BIGINT_AS_STRING, JSON_INVALID_UTF8_IGNORE, JSON_INVALID_UTF8_SUBSTITUTE, JSON_OBJECT_AS_ARRAY, JSON_THROW_ON_ERROR) |
+
+EX: 
 Convert JSON String to PHP Object and access attribute values:
-
 ```
 <?php
   $jsonobj = '{"Peter":35,"Ben":37,"Joe":43}';
@@ -207,13 +213,15 @@ json_encode(value, options, depth)
 ```
 
 | Parameter | Description |
-|----|----|
-| value | Required. Specifies the value to be encoded |
-| options | Optional. Specifies a bitmask (JSON_FORCE_OBJECT, JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP, JSON_HEX_APOS, JSON_INVALID_UTF8_IGNORE, JSON_INVALID_UTF8_SUBSTITUTE, JSON_NUMERIC_CHECK, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_PRESERVE_ZERO_FRACTION, JSON_PRETTY_PRINT, JSON_UNESCAPED_LINE_TERMINATORS, JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE, JSON_THROW_ON_ERROR)  |
-| depth | Optional. Specifies the maximum depth |
+|----       |----|
+| value     | Required. Specifies the value to be encoded |
 
+| options   | Optional. Specifies a bitmask (JSON_FORCE_OBJECT, JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP, JSON_HEX_APOS, JSON_INVALID_UTF8_IGNORE, JSON_INVALID_UTF8_SUBSTITUTE, JSON_NUMERIC_CHECK, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_PRESERVE_ZERO_FRACTION, JSON_PRETTY_PRINT, JSON_UNESCAPED_LINE_TERMINATORS, JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE, JSON_THROW_ON_ERROR)  |
+
+| depth     | Optional. Specifies the maximum depth |
+
+EX: 
 Convert a PHP array to JSON using `json_encode()`:
-
 ```
 <?php
   $cars = array("Volvo", "BMW", "Toyota");

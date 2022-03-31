@@ -12,7 +12,7 @@ $inventory = [
         "name" => "Apple",
         "description" => "An apple is an edible fruit produced by an apple tree (Malus domestica). Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus.",
         "unitPrice" => 1.99,
-        "file" => "apple.jpg"
+        "file" => "apple.jpg" 
     ],
     [
         "id" => "d05347de-491f-11ec-81d3-0242ac130001",

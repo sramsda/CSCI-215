@@ -92,12 +92,21 @@
                 if (this.readyState == 4 && this.status == 200) {
                     // convert the string response (in JSON format) into a JavaScript object
                     // TODO
+                    const responseData = JSON.parse(this.responseText);
 
                     // add to history
                     // TODO
+                    recordHistory(responseData)
 
                     // handle success/failure responses (right/wrong guesses)
                     // TODO
+                    if(responseData.gameOver === true){
+                        handleSuccess(responseData); 
+                    }else{
+                        handleFailure(responseData);
+                    }
+
+   
                 }
             };
             ajaxRequest.open("GET", "https://tcmoorer.people.cofc.edu/CSCI215/Spring2022/11/e11.2-ajax-guess.php?target=" + targetNumber + "&guess=" + userGuess, true);
