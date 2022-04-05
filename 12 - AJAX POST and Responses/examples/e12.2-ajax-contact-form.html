@@ -27,7 +27,9 @@
                     <label for="userComments" class="form-label">Comments</label>
                     <textarea class="form-control" id="userComments" rows="3"></textarea>
                 </div>
-                <button type="button" onclick="..." class="btn btn-primary">Submit</button>
+                <button type="button" onclick="sendContactInfoAsParameters()" class="btn btn-primary">Submit</button>
+
+                <div id = 'response'> </div> 
             </form>
 
         </div>
@@ -40,7 +42,28 @@
      * POST call using parameters
      */
     function sendContactInfoAsParameters() {
-        //TODO
+       const ajaxRequest = new XMLHttpRequest();
+        
+       ajaxRequest.onreadystatechange = function(){
+           if(this.readyState == 4 && this.status == 200){
+
+               const response = JSON.parse(this.responseText);
+               
+               let responseMsg = `<br>id: ${response.id}<br> name: ${response.name}<br> email: ${response.email}<br> comments: ${response.comments}`;
+
+               document.getElementById('response').innerHTML = responseMsg;
+           }
+       }
+
+       ajaxRequest.open("POST", "http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/12/e12.2-ajax-contact-form.php", true)
+
+       let name = document.getElementById('userName').value;
+       let email = document.getElementById('userEmail').value;
+       let comments = document.getElementById('userComments').value;
+
+       ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+       ajaxRequest.send(`userName=${name}&userEmail=${email}&userComments=${comments}`);
     }
 
     /**
@@ -48,6 +71,31 @@
      */
     function sendContactInfoAsJSON() {
         //TODO
+
+        const ajaxRequest = new XMLHttpRequest();
+        
+        ajaxRequest.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+ 
+                const response = JSON.parse(this.responseText);
+                
+                let responseMsg = `<br>id: ${response.id}<br> name: ${response.name}<br> email: ${response.email}<br> comments: ${response.comments}`;
+ 
+                document.getElementById('response').innerHTML = responseMsg;
+            }
+        }
+ 
+        ajaxRequest.open("POST", "http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/12/e12.2-ajax-contact-form-json.php", true)
+
+        
+
+        const user = {}
+        user.name = document.getElementById('userName').value;
+        user.email = document.getElementById('userEmail').value;
+        user.comments = document.getElementById('userComments').value;
+
+        ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        ajaxRequest.send(JSON.stringify(user));
     }
 
 </script>

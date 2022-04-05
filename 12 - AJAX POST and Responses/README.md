@@ -11,9 +11,13 @@ This module builds on the topic of AJAX and PHP using JSON to send information b
 
 ## AJAX POST Requests
 
+- get is on the URL
+- post is in the body of a post request
+
 A simple POST request:
 
 ```
+- request and url where to post information
 xhttp.open("POST", "demo_post.asp");
 xhttp.send();
 ```
@@ -25,7 +29,7 @@ The example below illustrates sending parameters in the POST body:
 ```
 xhttp.open("POST", "ajax_test.asp");
 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xhttp.send("fname=Henry&lname=Ford");
+xhttp.send("fname=Henry&lname=Ford"); //include name/value parameters or JSON information 
 ```
 
 This example, illustrates converting a JavaScript object to JSON using `JSON.stringify()` in the POST body. Recall that `JSON.stringify()` converts the JavaScript object into a JSON string.   
@@ -47,8 +51,8 @@ PHP supports the JavaScript Object Notation data-interchange format via the foll
 
 | Function | Description |
 |---|---|
-| `json_decode()` | Decodes a JSON string |
-| `json_encode()` | Encode a value to JSON format |                           
+| `json_decode()` | Decodes a JSON string to php format|
+| `json_encode()` | Encode a php value to JSON format |                           
 
 
 ### `json_decode()` - JSON to PHP Object
@@ -75,9 +79,9 @@ Convert JSON String to PHP Object and access attribute values:
   
   $obj = json_decode($jsonobj);
   
-  echo $obj->Peter;
-  echo $obj->Ben;
-  echo $obj->Joe;
+  echo $obj->Peter; // access the values for the names (35)
+  echo $obj->Ben; // (37)
+  echo $obj->Joe; // (43) 
 ?>
 ```
 
