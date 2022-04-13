@@ -20,9 +20,101 @@
 
 -->
 <html>
-<head></head>
-<body onload="">
+<head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+  rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+  crossorigin="anonymous"></head>
+<body onload="init()">
+
+  <div class="container">
+  <h1> Enter Item </h1> 
+
+  <form name="formOne">
+    <div>
+      <label for="id" class="form-label">Enter ID Number</label> 
+      <input type="text" class="form-control" name="id" id="id"> 
+
+      <label for="name" class="form-label">Enter Produce Name</label> 
+      <input type="text" class="form-control" name="name" id="name"> 
+
+      <label for="cost" class="form-label">Enter Unit Cost</label> 
+      <input type="text" class="form-control" name="cost" id="cost"> 
+
+      <label for="qty" class="form-label">Enter Quantity</label> 
+      <input type="text" class="form-control" name="qty" id="qty"> 
+    </div> 
+
+    <button type="'button" classs = "btn btn-primary" onclick="addItem()"> Add Item</button> 
+  </form> 
+
+  <br><br>
+  <h1> Edit Item Quantity</h1> 
+  <form name ='formTwo'>
+    <label for="enterId" class="form=label"> Enter ID number to edit </label> 
+    <input type="text" class ="form-control" name="enterId" id="enterId">
+
+    <button type="'button" classs = "btn btn-primary" onclick="increment('enterId')"> + Increment Item </button> 
+
+    <button type="'button" classs = "btn btn-primary" onclick="decrement('enterId')"> - Decrement Item </button>
+  </form> 
+
+  <br><br>
+  <br><br>
+  <h1> Your Cart </h1> 
+  <div id="cart"> </div> 
+  </div>
+
+
 <script>
+
+const items = []; 
+
+function init(){
+  let itemsJSON = JSON.stringify(items);
+  sessionStorage.setItem("items", itemsJSON);
+}
+
+function addItem(itemID, itemName, itemPrice, itemQty){
+  let itemID = document.getElementById('id'); 
+
+  let items = JSON.parse(sessionStorage.getItem("items"));
+
+  let item = {id: itemID, name: itemName, price: itemPrice, quantity: itemQty};
+  items.push(item); 
+
+  let itemsJSON = JSON.stringity(items); 
+  sessionStorage.setItem("items", itemsJSON );
+}
+
+function incrementQty(itemID){
+  let items = JSON.parse(sessionStorage.getItem("items")); 
+
+  for(let i =0; i<items.length; i++){
+    if(items[i].id == itemID){
+      items[i].quantity += 1;
+    }
+  }
+
+  let itemsJSON = JSON.stringify(items); 
+  sessionStorage.setItem("items", itemsJSON); 
+
+  updateCart(); 
+}
+
+function updateCart(){
+  let items = JSON.parse(sessonStorage.getItem("items")); 
+  let div = document.getElementById('cart'); 
+  div.innerHTML = ""; 
+
+  let divStr = ""; 
+
+  for(let i =0; i<items.length; i++){
+    divStr += `<div> 
+                  ${items[i].name} - ID: ${items[i].id}, Price: ${items[i].price}, Qty: ${items[i].quantity}
+              </div> `;
+  }
+
+  div.innerHTML = divStr; 
+}
 
 </script>
 </body>
