@@ -1,0 +1,146 @@
+<!--
+    In Class Assignment
+
+    Write a JavaScript program that defines an array of objects stores it in browser storage. The object can be Each produce
+    object will have the following attributes:
+
+    - id - a unique identifier
+    - name - the name of the item
+    - unitCost - the unit cost if the item
+    - quantity - initialize to 0
+
+    Use the following guidance:
+
+    - Initialize an empty array and store it.
+    - Write a method to add an object to the array in storage. The method should include the parameters necessary to create
+      the object.
+    - Use a method to find an object by id in storage and increment its quantity by 1.
+    - Use a method to find an object by id in storage and decrement its quantity by 1.
+    - Display the contents of the array in the browser and update after each time the array is modified.
+
+-->
+<html>
+<head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+  rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+  crossorigin="anonymous"></head>
+
+<body onload="initStorage()">
+
+  <div class="container">
+
+    <h2> Products </h2> 
+    <div id="products"> </div>
+
+    <br><br>
+
+    <button type="'button" classs = "btn btn-primary" onclick="increment()"> + Increment</button> 
+
+    <button type="'button" classs = "btn btn-primary" onclick="decrement()"> - Decrement</button>
+
+    <br><br>
+    <h2> Totals </h2> 
+    <div> Total Quantity: <span id="totalQty"></span> </div> 
+    <div> Subtotal: $<span id="subtotal"></span> </div> 
+    <div> Tax Amt (6%): $<span id="taxAmt"></span> </div> 
+    <div> Grand Total: $<span id="grandTotal"></span> </div> 
+
+
+
+
+
+ 
+  </div>
+
+
+<script>
+    const items = []; 
+    const TAX = .06; 
+
+    let productList = {}
+
+    function initStorage(){
+        // get item list from PHP file 
+        const ajaxRequest = new XMLHttpRequest();
+
+        ajaxRequest.onload = function(){
+            productList = JSON.parse(this.responseText); 
+
+            let productListJSON = JSON.stringify(productList);
+            sessionStorage.setItem("productList", productListJSON);
+
+        };
+
+    ajaxRequest.open("GET", "https://ramsdensl.stu.cofc.edu/CSCI215_Spring2022/13/Quiz10.php");
+    ajaxRequest.send(); 
+
+    calcTotal();
+
+    }
+
+    function increment(){
+        let products = JSON.parse(sessionStorage.getItem("productList"));
+
+        products[0].quantity += 1; 
+        products[1].quantity += 1; 
+
+
+        let productListJSON = JSON.stringify(products); 
+        sessionStorage.setItem("productList", productListJSON); 
+
+        calcTotal(); 
+
+    }
+
+    function decrement(){
+        let products = JSON.parse(sessionStorage.getItem("productList"));
+
+        if(products[3].quantity >0){
+            products[3].quantity -= 1; 
+            products[4].quantity -= 1; 
+        }
+
+        let productListJSON = JSON.stringify(products); 
+        sessionStorage.setItem("productList", productListJSON); 
+
+        calcTotal(); 
+
+    }
+
+    function calcTotal(){
+        let products = JSON.parse(sessionStorage.getItem("productList")); 
+        console.log(products)
+        let div = document.getElementById('products')
+        let divStr = ""; 
+
+        div.innerHTML = ""; 
+
+        let totalQty = 0; 
+
+        let subtotal = 0; 
+        let taxAmt = 0; 
+        let grandTotal = 0; 
+
+        for(let i = 0; i<products.length; i++){
+            divStr += `<div> ${products[i].name} - ID: ${products[i].id}, Price: ${products[i].unitCost}, Qty: ${products[i].quantity} </div>`;
+            
+
+            totalQty += products[i].quantity; 
+            subtotal += products[i].unitCost * products[i].quantity;
+        }
+
+
+        taxAmt = subtotal * TAX; 
+        grandTotal = subtotal + taxAmt; 
+
+        div.innerHTML = divStr; 
+        document.getElementById('totalQty').innerHTML = totalQty; 
+        document.getElementById('subtotal').innerHTML = subtotal.toFixed(2); 
+        document.getElementById('taxAmt').innerHTML = taxAmt.toFixed(2); 
+        document.getElementById('grandTotal').innerHTML = grandTotal.toFixed(2); 
+
+
+    }
+
+</script>
+</body>
+</html>
