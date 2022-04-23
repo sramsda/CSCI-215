@@ -43,11 +43,6 @@
     <div> Subtotal: $<span id="subtotal"></span> </div> 
     <div> Tax Amt (6%): $<span id="taxAmt"></span> </div> 
     <div> Grand Total: $<span id="grandTotal"></span> </div> 
-
-
-
-
-
  
   </div>
 
@@ -94,7 +89,7 @@
     function decrement(){
         let products = JSON.parse(sessionStorage.getItem("productList"));
 
-        if(products[3].quantity >0){
+        if(products[3].quantity > 0){
             products[3].quantity -= 1; 
             products[4].quantity -= 1; 
         }
