@@ -1,0 +1,405 @@
+<!-- http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/products.php -->
+<!-- http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/processOrder.php -->
+<!-- http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/images/ -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+          crossorigin="anonymous">
+    <style>
+
+        h1{
+            color:rgb(57, 105, 121) ;
+        }
+        .stars{
+            color: rgb(113, 113, 113);
+        }
+
+        #product{
+            /* margin: 5p 5px 5px 5px; */
+            border-bottom: 2px solid rgb(57, 105, 121);
+        }
+
+        #cartInfo{
+            background-color: rgb(208, 222, 235);
+            /* border: 1px solid rgb(57, 105, 121); */
+            padding-left: 5px;
+            padding-top: 5px;
+            min-height: 300px;
+        }
+
+        #cartTotal{
+            background: rgb(66, 117, 162) ;
+            color: white;
+            padding: 5px 10px 10px 10px;
+            font-weight: bold;
+        }
+
+        .errorMsg{
+            color:red;
+            font-weight: bold;
+        }
+
+
+    </style>
+</head>
+<body onload="init()">
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <h1>Instruments</h1>
+            <div id="itemsDiv"></div>
+        </div>
+        <div class="col-4">
+            <div id="respMsgAlert" class="alert alert-success visually-hidden" role="alert">
+                <div id="respMsgText"></div>
+            </div>
+
+            <h1>Your Cart</h1>
+            <div id="cartInfo">
+            </div>
+            <div id="cartTotal">Grand Total: $0</div>
+
+            <br> <br> 
+            <h1>Your Info</h1>
+            <form>
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="userName" class="form-control" id="firstName" onblur = "validate('firstName')">
+                    <div id="firstNameValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="userName" class="form-control" id="lastName" onblur = "validate('lastName')"> 
+                    <div id="lastNameValidation" class="errorMsg"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="userEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" onblur = "validate('userEmail')">
+                    <div id="emailValidation" class="errorMsg"></div>
+                </div>
+
+                <button type="button" onclick="submitOrder()" class="btn btn-primary">Submit Order</button>
+
+                <div id = 'response'> </div> 
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    // const TAX_RATE = .045;
+
+    const cartIds = []; 
+
+    const orderInfo = {
+        "cart" : []
+    };
+
+    let pageIsValid = false;
+
+    
+
+    /* load product information */ 
+    function init() {
+        loadAjax("http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/products.php", processProducts);
+    }
+
+    /**
+     * Queue up multiple
+     * @param url
+     * @param cFunction
+     */
+    function loadAjax(url, cFunction) {
+        const ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.onload = function() { cFunction(this); }
+        ajaxRequest.open("GET", url);
+        ajaxRequest.send();
+    }
+
+
+    function processProducts(ajaxRequest) {
+        const products = JSON.parse(ajaxRequest.responseText);
+        let outputString = '';
+        for (let key in products) {
+
+            let product = products[key];
+
+            let img   = product.image;
+            let name  = product.name; 
+            let price = product.unitPrice;
+            let id    = product.id;
+            let desc  = product.description;
+            let stars = product.averageStars;
+
+            outputString += `<div id = "product" class="row mt-5">
+                                <div class="col-2"><img class="img-fluid" src="http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/images/${img}" alt="Image of ${img}"/></div>
+                                <div class="col-10">
+                                    <br>
+                                    <h4>${name} - $${price}</h4>
+
+                                    <div>${desc} <br><br></div>
+                                    <div class = "stars"> Reviews: ${stars} </div>
+
+                                    <br>
+                                    <button type="button" class="btn btn-primary" onclick="addItem('${id}')"> Add to cart</button>
+                                    <br><br>
+                                </div>
+                            </div>`;
+        }
+        document.getElementById("itemsDiv").innerHTML = outputString;
+    }
+
+
+    function addItem(id) {
+
+        // don't add the item if its already in the cart
+        if(cartIds.includes(id)) {
+            window.alert(`You already added this item! Adjust it's quantity in your cart`)
+
+        // add the item to the cart
+        }else{
+            // add ID to ID array 
+            cartIds.push(id); 
+
+            // get product info from php file 
+            const ajaxRequest = new XMLHttpRequest(); 
+
+            ajaxRequest.onload = function(){
+                const product = JSON.parse(this.responseText);
+
+                let id    = product.id;
+                let name  = product.name;
+                let price = product.unitPrice;
+
+                // add product to cart object
+                let productInfo = {
+                    id: id, 
+                    name: name, 
+                    price:  price, 
+                    qty: 1
+                };
+
+                orderInfo.cart.push(productInfo)
+
+                // process response - display on DOM 
+                document.getElementById('cartInfo').innerHTML += 
+                `<div class="row mt-10"> 
+                    <div> 
+                        <h4>${name} - $${price}</h4> 
+                        Qty: <span type = "number" id="quantity${id}">1</span>
+                        <br>
+                        Item Total: $<span id=totalItemPrice${id}> ${price}</span>
+                        <br>
+                        <button type="button" class="btn btn-secondary" onclick="incrementItem('${id}')"> + </button>
+                        <button type="button" class="btn btn-secondary" onclick="decrementItem('${id}')"> - </button>
+                        <br>
+                    -----------------------------------------------------
+
+                    </div> 
+                </div> <br><br>`; 
+
+                calcGrandTotal();
+
+            }
+
+            // send request 
+            ajaxRequest.open("GET", "http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/products.php?id="+id); 
+            ajaxRequest.send(); 
+        }
+
+    }
+
+    function decrementItem(id){
+        let quantity = Number(document.getElementById(`quantity${id}`).innerHTML);
+
+        let itemPrice = 0; 
+
+        quantity -= 1;
+
+        // get the price of this item from the cart object
+        for(let i=0; i<orderInfo.cart.length; i++){
+            if(orderInfo.cart[i].id == id){
+                itemPrice = orderInfo.cart[i].price;
+                orderInfo.cart[i].qty = quantity;
+            }
+        }
+
+        let subtotal = quantity * itemPrice; 
+
+        if(quantity >= 0){
+            document.getElementById(`quantity${id}`).innerHTML = quantity;
+            document.getElementById(`totalItemPrice${id}`).innerHTML = subtotal.toFixed(2);
+        }else{
+            window.alert(`This item is not in your cart`); 
+        } 
+
+        calcGrandTotal()
+
+    }
+
+
+    function incrementItem(id){
+        // console.log(`increment item at ${id}`);
+
+        let quantity = Number(document.getElementById(`quantity${id}`).innerHTML);
+
+        // get the price of this product                 
+        // console.log(orderInfo.cart)
+        let itemPrice = 0; 
+
+        quantity += 1;
+
+
+        // get the price of this item from the cart object
+        for(let i=0; i<orderInfo.cart.length; i++){
+            if(orderInfo.cart[i].id == id){
+                itemPrice = orderInfo.cart[i].price;
+
+                orderInfo.cart[i].qty = quantity;
+            }
+        }
+
+        let subtotal = quantity * itemPrice; 
+
+        if(quantity <= 10){
+            document.getElementById(`quantity${id}`).innerHTML = quantity;
+            document.getElementById(`totalItemPrice${id}`).innerHTML = subtotal.toFixed(2);
+        }else{
+            window.alert(`Can only add 10 of one item to cart`); 
+        } 
+
+        calcGrandTotal()
+    }
+
+    function calcGrandTotal(){
+        let grandTotal = Number(0); 
+
+        // console.log(cartIds)
+        for(let i = 0; i < cartIds.length; i++){
+
+            let currentId = cartIds[i]; 
+
+            let currentSubtotal = document.getElementById(`totalItemPrice${currentId}`).innerHTML;
+
+            grandTotal += Number(currentSubtotal);
+        }
+
+        document.getElementById('cartTotal').innerHTML = `Grand Total: $${grandTotal.toFixed(2)}`;
+    }
+
+    function submitOrder(){
+        // console.log(pageIsValid);
+
+        if(pageIsValid){
+            console.log("page valid");
+            const ajaxRequest = new XMLHttpRequest();
+
+            ajaxRequest.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+
+                const response = JSON.parse(this.responseText);
+
+                let confirmationId  = response.confirmationId; 
+                let firstName       = response.firstName; 
+                let lastName        = response.lastName;
+                let email           = response.email; 
+                let responseCart    = response.cart;
+               
+                document.getElementById('respMsgAlert').classList.remove('visually-hidden');
+
+                let cartString = ""; 
+
+                for (let i = 0; i < orderInfo.cart.length; i++) {
+                    console.log(orderInfo.cart[i]);
+
+                    price = orderInfo.cart[i].price * orderInfo.cart[i].qty; 
+
+                    cartString += `Name: ${orderInfo.cart[i].name}, Qty: ${orderInfo.cart[i].qty}, Total: $${price.toFixed(2)}<br>`;
+                }
+
+                // console.log(cart);
+
+                let responseStr = `<h1> Order Confirmed!</h1> Confirmation Number: ${confirmationId} <br><br>
+                                <h1> User Info </h1> Name: ${firstName} ${lastName} <br> Email: ${email} <br><br>
+                                <h1> Cart Info </h1> ${cartString}
+                
+                `; 
+
+                document.getElementById('respMsgText').innerHTML = responseStr;
+
+                }
+            }   
+
+            ajaxRequest.open("POST", "http://ramsdensl.students.cofc.edu/CSCI215_Spring2022/final/processOrder.php", true)
+
+
+
+            let firstName = document.getElementById("firstName").value;
+            let lastName  = document.getElementById("lastName").value;
+            let email     = document.getElementById("userEmail").value;
+            let JSONcart  = JSON.stringify(orderInfo.cart); 
+
+            ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            // console.log(cart)
+
+            ajaxRequest.send(`firstName=${firstName}&lastName=${lastName}&email=${email}&cart=${JSONcart}`);
+
+        }else{
+            window.alert("Please enter correct information to submit order")
+        }
+    }
+
+    function validate(idName){
+        let text = document.getElementById(idName).value;
+
+
+        if(idName == "firstName"){
+            // validate first name
+            if(text.length > 0 && text.length <= 20){
+                document.getElementById('firstNameValidation').innerHTML = "";
+                pageIsValid = true;
+            }else{
+                document.getElementById('firstNameValidation').innerHTML = "First name is required";
+                pageIsValid = false;
+            }
+        } else if(idName == "lastName"){
+            if(text.length > 0 && text.length <= 20){
+                document.getElementById('lastNameValidation').innerHTML = "";
+                pageIsValid = true;
+            }else{
+                document.getElementById('firstNameValidation').innerHTML = "Last name is required";
+                pageIsValid = false;
+
+            }
+        } else if(idName == "userEmail"){
+            if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(text) && text.length > 0){
+                document.getElementById('emailValidation').innerHTML = "";
+                pageIsValid = true; 
+            }else{
+                document.getElementById('emailValidation').innerHTML = "Enter a valid email address";
+                pageIsValid = false;
+
+            }
+        }
+
+    }
+
+
+   
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
